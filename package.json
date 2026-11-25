@@ -1,0 +1,46 @@
+{
+  "name": "careportal",
+  "version": "1.0.0",
+  "description": "AI-Powered Clinical Intake & Patient Case-Taking Platform",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:patient": "cd apps/patient-kiosk && npm run dev",
+    "dev:doctor": "cd apps/doctor-dashboard && npm run dev",
+    "dev": "npm run dev:patient",
+    "build:patient": "cd apps/patient-kiosk && npm run build",
+    "build:doctor": "cd apps/doctor-dashboard && npm run build",
+    "build": "npm run build:patient && npm run build:doctor",
+    "install:all": "npm install && cd apps/patient-kiosk && npm install && cd ../doctor-dashboard && npm install",
+    "test": "vitest run",
+    "lint": "npm run lint --workspace=@careportal/patient-kiosk && npm run lint --workspace=@careportal/doctor-dashboard",
+    "typecheck:patient": "tsc --noEmit -p apps/patient-kiosk/tsconfig.json",
+    "typecheck:doctor": "tsc --noEmit -p apps/doctor-dashboard/tsconfig.json",
+    "typecheck": "npm run typecheck:patient && npm run typecheck:doctor"
+  },
+  "keywords": [
+    "healthcare",
+    "clinical",
+    "ai",
+    "medical",
+    "hospital",
+    "ehr"
+  ],
+  "author": "SIH Team",
+  "license": "PROPRIETARY",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "16.4.6",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.3",
+    "vitest": "^4.1.12"
+  }
+}
