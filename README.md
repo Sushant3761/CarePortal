@@ -31,11 +31,11 @@ database/               SQL schema variants, seed, and setup scripts
 docs/                   Audit, roadmap, and verification reports
 ```
 
-The kiosk currently makes direct browser Supabase calls. API routes handle OTP, AI, and token SMS. The dashboard uses browser Supabase Auth and client-side route checks. Those client checks are not a security boundary; database RLS and server authorization must be made least-privilege before real PHI is used.
+The kiosk uses Supabase Auth for phone OTP and makes direct browser Supabase calls for intake data. The dashboard uses Supabase Auth cookies and a server proxy that checks the authenticated user's active profile and role; database RLS remains essential for record-level access. No live Supabase project was available during validation.
 
 ## Prerequisites
 
-- Node.js 18 or later (the app uses `AbortSignal.timeout` in server integrations)
+- Node.js 20.9 or later (required by the current Next.js 16 release)
 - npm
 - A Supabase project for database/auth-backed operation
 - Optional server credentials: Gemini; Supabase Auth phone-provider credentials are configured in Supabase, not in this app's `.env`.
@@ -45,7 +45,7 @@ The kiosk currently makes direct browser Supabase calls. API routes handle OTP, 
 From the project root:
 
 ```bash
-npm install
+npm ci
 ```
 
 Create local env files from `.env.example` as needed. Next.js reads `.env.local` in each app directory:
@@ -94,7 +94,7 @@ npm run build:doctor
 npm run build
 ```
 
-The repository currently has no test files, so `npm test` cannot provide workflow coverage yet. Current verification results and environment limitations are recorded in [TESTING_REPORT.md](docs/TESTING_REPORT.md).
+The repository has five unit tests covering dashboard role rules and kiosk session cleanup; these do not exercise browser workflows or live services. Current verification results and environment limitations are recorded in [TESTING_REPORT.md](docs/TESTING_REPORT.md).
 
 ## Privacy and deployment notes
 
@@ -107,4 +107,4 @@ The repository currently has no test files, so `npm test` cannot provide workflo
 
 ## Git
 
-This workspace is intentionally prepared without initializing or modifying Git. Initialize the repository and create its first commit separately when ready.
+The `feature/careportal-initial-implementation` branch contains the project work in logical Conventional Commits. GitHub's `main` branch is established as the initial tooling commit so the feature branch has a PR base.
